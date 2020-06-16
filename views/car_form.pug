@@ -1,0 +1,75 @@
+extends layout
+
+block content
+  
+  .container-fluid.Register_head
+    h1= title
+
+  .container-fluid.Register
+    form.container.Register_form(method='POST' action='' enctype="multipart/form-data")
+      .form-row(class='row justify-content-start')
+        div.form-group(class=['col-xs-6', 'col-md-8'])
+          label(for='name') Name
+          input#name.form-control(type='text' placeholder='The name of Car' name='name' value=(undefined===car_info ? '' : car_info.name))
+          div(id="errorM")
+            if errors
+              for error in errors
+                if error.param == "name"
+                  != error.msg
+            
+        div.form-group(class=['col-xs-6', 'col-md-4'])
+          label(for='year') Year
+          select#year.form-control(type='select' name='year')
+            for y in years
+              if car_info
+                option(value=y selected=((y==car_info.product_year) ? 'selected' : false)) #{y}
+              else
+                option(value=y) #{y}
+      
+      .form-row(class='row justify-content-start')
+        div.form-group(class=['col-xs-4', 'col-md-4'])          
+          label(for='style') Style
+          select#style.form-control(type='select' name='style')
+            for s in style_list
+              if car_info
+                option(value=s selected=((s==car_info.style)? 'selected': false)) #{s}
+              else
+                option(value=s) #{s}
+        
+        div.form-group(class=['col-xs-4', 'col-md-4'])          
+          label(for='price') Price per a Day
+          .input-group
+            span.input-group-addon $
+            input#price.form-control(type='text' name='price' value=(undefined===car_info ? '' : car_info.price))
+          if errors
+            for error in errors
+              if error.param == "price"
+                != error.msg
+        div.form-group(class=['col-xs-4', 'col-md-4'])
+          label(for='location') Location
+          input#location.form-control(type='text' name='location' value=(undefined===car_info ? '' : car_info.location))
+
+      .form-row(class='row justify-content-start')
+        div.form-group(class=['col-xs-4', 'col-md-4'])
+          label(for='status') Status
+          select#status.form-control(type='select' name='status')
+            for t in status_list
+              if car_info
+                option(value=t selected=((t==car_info.status)? 'selected': false)) #{t}
+              else
+                option(value=s) #{t}
+        div.form-group(class=['col-xs-4', 'col-md-4'])
+          label(for='dateA') Available Date
+          input#dateA.form-control(type='date' name='dateA' value=(undefined===car_info ? '' : car_info.available_date_formatted))     
+        div.form-group(class=['col-xs-4', 'col-md-4'])
+          label(for='image_file') Image
+          input#image_file.form-control-file(type='file' name='image_file')
+          if uploadError
+              != uploadError
+      div(class='text-center')
+        button(class='btn btn-primary' type='submit')
+          | REGISTER
+        button(class='btn btn-primary' type='reset')
+          | RESET
+
+  .container-bottom         

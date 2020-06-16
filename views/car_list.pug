@@ -1,0 +1,40 @@
+extends layout
+
+block content
+
+  .container-fluid.List_head
+    h1= title
+
+  .container-fluid.List
+    .container-fluid.List_form
+      div(class="col-xs-12 col-md-12" style="padding: 0px")
+        div(class="btn-group" id="filter")
+          button#option0(class="btn btn-primary" value=data_list) ALL
+          button#option1(class="btn btn-primary" value=data_list) YEAR
+          button#option2(class="btn btn-primary" value=data_list) PRICE
+          div(class="btn-group" id="style_filter")
+            button#option3(class="btn btn-primary dropdown-toggle" type= "button" data-toggle="dropdown") STYLE 
+              span(class="caret")
+            ul(class="dropdown-menu" id="drop" role="menu")
+              li#style-small(href='#' value=data_list) SMALL
+              li#style-suv(href='#' value=data_list) SUV
+              li#style-truck(href='#' value=data_list) TRUCK
+              li#style-luxury(href='#' value=data_list) LUXURY
+            
+      div(class="col-xs-12 col-md-12")
+        table.table(class="table-hover" id="list_table")
+            thead(class="list-thead")
+              tr
+                th
+                  |Name
+                th
+                  |Price                
+                th
+                  |Product Year
+                th
+                  |Style
+            tbody#data-list
+        input(type='hidden' id='data' value=data_list)
+  .container-bottom
+
+    

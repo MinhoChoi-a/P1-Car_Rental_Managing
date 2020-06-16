@@ -1,0 +1,212 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a:hover {
+  color: #00B7FF;
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: black;
+  cursor: pointer;
+}
+
+.clickable-tr>td:hover {
+  cursor: pointer;
+}
+
+.clickable-rs>td:hover {
+  cursor: pointer;
+}
+
+nav#head {
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+}
+
+h1 {
+  margin-top: 70px;
+}
+
+.Register_head {
+  background-size: cover;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: auto;
+  padding-right:auto;
+  max-width: 800px;
+}
+
+.Register {
+  background: url('/images/back.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.Register_form {
+  background-color: azure;
+  background-size: cover;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: auto;
+  padding-right:auto;
+  max-width: 800px;
+}
+
+
+.Search_head {
+  background-size: cover;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: auto;
+  padding-right:auto;
+  max-width: 800px;
+}
+
+.Search {
+  background: url('/images/back.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.Search_form {
+  background-color: azure;
+  background-size: cover;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: auto;
+  padding-right:auto;
+  max-width: 800px;
+}
+
+.Detail_head {
+  background-size: cover;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 50px;
+  padding-right:auto;
+  max-width: 1200px;
+}
+
+.Detail {
+  background: url('/images/back.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.Detail_form {
+  background-size: cover;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: auto;
+  padding-right:auto;
+  max-width: 1200px;
+}
+
+thead.detail-thead {
+  background-color: darkgray;
+  color: black;
+}
+
+tbody.detail-tbody {
+  background-color:white;
+  color: black;
+}
+
+.car-img{
+  width: 100%;
+  height: auto;
+}
+
+table.info_table>tbody>tr>td, table.info_table>thead>tr>th{
+  padding-left: 25px;
+}
+
+.List_head {
+  background-size: cover;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: auto;
+  padding-right:auto;
+  max-width: 800px;
+}
+
+.List {
+  background: url('/images/back.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.List_form {
+  background-color: azure;
+  background-size: cover;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: auto;
+  padding-right:auto;
+  max-width: 800px;
+}
+
+.dropdown-menu {
+  background-color: grey;
+  padding-left: 10px;
+  padding-right: 10px;
+  min-width:0px !important;
+}
+
+.dropdown-menu li {
+  color: white;
+  
+}
+
+
+#option3 {
+  padding-right: 11px;
+}
+
+table#list_table>thead {
+  color: cornflowerblue;
+}
+
+#footer {
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+  height: 60px;
+  background-color: black;
+  color: gray;
+  z-index: 1;
+}
+#footerlink {
+    margin-top: 20px;
+}
+
+.container-bottom {
+  height:70px;
+}

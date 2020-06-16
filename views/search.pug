@@ -1,0 +1,60 @@
+extends layout
+
+block content
+  
+  .container-fluid.Search_head
+    h1= title
+  
+  .container-fluid.Search
+    form.container.Search_form(method='POST' action='/main/search/list')
+      .form-row(class='row justify-content-start')
+        .form-group(class=['col-xs-12', 'col-md-6'])
+          label(for='dateFrom') Start Date
+          input#dateFrom.form-control(type='date' name='dateFrom')
+          div(id="errorM")
+            if errors
+              for error in errors
+                if error.param == "date_from"
+                  != error.msg
+            
+        .form-group(class=['col-xs-12', 'col-md-6'])
+          label(for='dateTo') End Date
+          input#dateTo.form-control(type='date' name='dateTo')
+          div(id="errorM")
+            if errors
+              for error in errors
+                if error.param == "date_to"
+                  != error.msg
+    
+      .form-row(class='row justify-content-start')
+        .form-group(class=['col-xs-12', 'col-md-6'])
+          label(for='location') Location
+          input#location.form-control(type='text' name='location' placeholder='leave this as empty until get the goole api' value=(undefined===res_info ? '' : res_info.location))
+          div(id="errorM")
+            if errors
+              for error in errors
+                if error.param == "location"
+                  != error.msg
+            
+        .form-group(class=['col-xs-12', 'col-md-6'])
+          label(for='style') Style
+          select#style.form-control(type='select' name='style')
+            for s in style_list
+              if res_info
+                option(value=s selected=((s==res_info.style)? 'selected': false)) #{s}
+              else
+                option(value=s) #{s}
+          div(id="errorM")
+            if errors
+              for error in errors
+                if error.param == "style"
+                  != error.msg
+
+      div(class='text-center')
+        button(class='btn btn-primary' type='submit')
+          | SEARCH
+        button(class='btn btn-primary' type='reset')
+          | RESET
+  
+
+  .container-bottom

@@ -1,0 +1,68 @@
+extends layout
+
+block content
+  
+  .container-fluid.Detail_head
+    h1= title
+
+  .container-fluid.Detail
+    .container-fluid.Detail_form
+      div(class="col-xs-12 col-md-5")
+        img(class="car-img" src=link)
+      div(class="col-xs-12 col-md-7" style="padding: 0px")
+        div(class="col-xs-12 col-md-12")
+          table.table(class="info_table")
+              thead(class="detail-thead")
+                tr
+                  th(style="width:40%")
+                      |Cateogry
+                  th(style="width:80%")
+                      |Description
+                  
+              tbody(class="detail-tbody")
+                tr
+                  td Name
+                  td #{cars.name}
+                tr
+                  td Product Year
+                  td #{cars.product_year}
+                tr
+                  td Style
+                  td #{cars.style}
+                tr
+                  td Price(/day)
+                  td #{cars.price}
+                tr
+                  td Image file
+                  td #{cars.image_id}
+                tr
+                  td Location
+                  td #{cars.location}
+                tr
+                  td Status
+                  td #{cars.status}
+                tr
+                  td Available Date
+                  td #{cars.available_date}
+                  
+        div.container-fluid(class="col-xs-12 col-md-12 text-center")
+          a(class='btn btn-primary' href=cars.url+'/update') UPDATE
+          button(class='btn btn-primary' data-toggle="modal" data-target="#exampleModal")
+              | DELETE
+          
+          div(class="modal fade" id="exampleModal" tabindex="-1" role="dialog")
+            div(class="modal-dialog" role="document")
+              div(class="modal-content")
+                div(class="modal-header")
+                  h5 Warning
+                  button(class="close" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+                div(class="modal-body")
+                  | Do you Really wanna delete it?
+                div(class="modal-footer")
+                  button(class="btn btn-secondary" data-dismiss="modal") Close
+                  a(class='btn btn-primary' href=cars.url+'/delete') Delete
+
+  .container-bottom      
+
+        
