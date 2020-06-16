@@ -9,8 +9,6 @@ const s3 = new AWS.S3({
     region: 'us-west-1'
 });
 
-const validator = require('express-validator');
-
 const {body, validationResult} = require('express-validator/check');
 const {sanitizeBody} = require('express-validator/filter');
 
