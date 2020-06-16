@@ -1,7 +1,5 @@
 var Car = require('../models/car');
 
-var { promisify } = require('util');
-
 const AWS = require('aws-sdk');
 var async = require('async');
 
@@ -124,8 +122,7 @@ exports.car_register_post = [
             const fileName = file.fieldname + '-' + uniqueSuffix +'-' + file.originalname;
             
             const myFile = file.originalname.split(".");
-            const fileType = myFile[myFile.length - 1];
-            //const fileData = fs.readFileSync(file.path);
+            //const fileType = myFile[myFile.length - 1];
             
             var params = {
                 Bucket: "test-s3-may",
@@ -292,29 +289,7 @@ exports.car_update_post = [
                                 res.redirect(updated_car.url);
                             })
                         });
-                        /**
-                        await s3.deleteObject(paramsDel, function(err, file) {
-                            if(err) {return next(err)};
-                            });
                         
-                        await s3.upload(params, function(err, data) {
-                            if(err) {return next(err)};
-                             });
-                        */
-                       
-                                             
-                        /**
-                        s3.deleteObject(paramsDel, function(err, file) {
-                            if(!err) {
-                            s3.upload(params, function(err, data) {
-                                if(err) {return next(err);}
-                                Car.findByIdAndUpdate(req.params.id, car, {}, function(err, updated_car) {
-                                    if(err) {return next(err);}
-                                    res.redirect(updated_car.url);  
-                            });
-                        });
-                        }
-                    });  */
                     }
                 });
             }
@@ -365,39 +340,10 @@ exports.car_update_post = [
                     } catch (error) {
                         return console.error(error);
                     } 
-                    /**
-                    finally {
-                        //console.log('message post called')
-                    } */
+                   
                     })
                 }
             
-        
-                
-                /** 
-                
-                function(err, results) {
-                    if(err) {return next(err);}
-                
-                    var car = new Car(
-                    { name: req.body.name,
-                    product_year: req.body.year,
-                    style: req.body.style,
-                    price: req.body.price,
-                    image_id: results.cars.image_id,
-                    location: req.body.location,
-                    status: req.body.status,
-                    available_date: req.body.dateA,
-                    _id: req.params.id
-                    });
-
-                    Car.findByIdAndUpdate(req.params.id, car, {}, function(err, updated_car) {
-                        if(err) {return next(err);}
-                        res.redirect(updated_car.url); 
-                    });
-                });
-                }*/
-        
             else
             {
                 var car = new Car(

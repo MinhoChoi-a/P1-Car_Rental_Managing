@@ -1,6 +1,5 @@
 var Car = require('../models/car');
 var Reservation = require('../models/reservation');
-var moment = require('moment');
 
 const AWS = require('aws-sdk');
 var async = require('async');
@@ -64,7 +63,7 @@ exports.search_post =  [
                 err.status = 404;
                 return next(err);
             }
-            //console.log(results.cars);
+            
             res.render('car_list', {title: 'AVAILABLE LIST', data_list: JSON.stringify(results.cars)});
             
         });
@@ -90,7 +89,7 @@ exports.search_post =  [
                     err.status = 404;
                     return next(err);
                 }
-                //console.log(results.cars);
+                
                 res.render('car_list', {title: 'AVAILABLE LIST', data_list: JSON.stringify(results.cars)});
                 
             });
@@ -101,8 +100,6 @@ exports.search_post =  [
 ]
 
 exports.data_list = function(req, res, next) {
-
-    //console.log(req.query.data_list);
 
     if(req.query.flag == 'all') {
         var list = JSON.parse(req.query.data_list);
