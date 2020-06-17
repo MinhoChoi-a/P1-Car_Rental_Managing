@@ -1,8 +1,8 @@
-var Car = require('../models/car');
-var Reservation = require('../models/reservation');
+const Car = require('../models/car');
+const Reservation = require('../models/reservation');
 
 const AWS = require('aws-sdk');
-var async = require('async');
+const async = require('async');
 
 const awsKey = require('../credential/AWS');
 
@@ -12,13 +12,12 @@ const s3 = new AWS.S3({
     region: 'us-west-1'
 });
 
-// const {body, validationResult} = require('express-validator');
+var style = ['All', 'Small', 'SUV', 'Luxury', 'Truck'];
 
 exports.search_menu_get = function(req, res, next) {
-
-    var style = ['All', 'Small', 'SUV', 'Luxury', 'Truck'];
     
-    Car.updateMany({available_date: {$lt: new Date()}}, {$set: {status: 'Available'}}, function(err, affected, resp) {
+    Car.updateMany({available_date: {$lt: new Date()}}, {$set: {status: 'Available'}}, 
+    function(err, affected, resp) {
         res.render('search', {title: 'SEARCH CAR', style_list: style});
 });
 }
@@ -34,7 +33,7 @@ exports.search_post =  [
     
     (req, res, next) => {
 
-    var reserv = new Reservation(
+    let reserv = new Reservation(
         {
             start_date: req.body.dateFrom,
             end_date: req.body.dateTo,
@@ -103,14 +102,15 @@ exports.search_post =  [
 
 exports.data_list = function(req, res, next) {
 
+    var list = JSON.parse(req.query.data_list);
+
     if(req.query.flag == 'all') {
-        var list = JSON.parse(req.query.data_list);
+        
         res.render('datatable', {reservFlag: "yes", data_list: list});
     }
 
     else if(req.query.flag == 'year') {
 
-        var list = JSON.parse(req.query.data_list);
         function compare(a, b) {
             let comparison  = 0;
             if (a.product_year > b.product_year) {
@@ -122,14 +122,13 @@ exports.data_list = function(req, res, next) {
             return comparison;
         }
 
-        var sortList = list.sort(compare);
+        let sortList = list.sort(compare);
         res.render('datatable', {reservFlag: "yes", data_list: sortList});
 
     }
 
     else if(req.query.flag == 'price') {
         
-        var list = JSON.parse(req.query.data_list);
         function compare(a, b) {
             let comparison  = 0;
             if (a.price > b.price) {
@@ -141,16 +140,14 @@ exports.data_list = function(req, res, next) {
             return comparison;
         }
 
-        var sortList = list.sort(compare);
+        let sortList = list.sort(compare);
         res.render('datatable', {reservFlag: "yes", data_list: sortList});
 
     }
 
     else if(req.query.flag == 'suv') {
 
-        var list = JSON.parse(req.query.data_list);
-        
-        var newList = [];
+        let newList = [];
         
         for(var i=0; i<list.length; i++)
         {
@@ -166,9 +163,7 @@ exports.data_list = function(req, res, next) {
 
     else if(req.query.flag == 'small') {
 
-        var list = JSON.parse(req.query.data_list);
-        
-        var newList = [];
+        let newList = [];
         
         for(var i=0; i<list.length; i++)
         {
@@ -184,9 +179,7 @@ exports.data_list = function(req, res, next) {
 
     else if(req.query.flag == 'truck') {
 
-        var list = JSON.parse(req.query.data_list);
-        
-        var newList = [];
+        let newList = [];
         
         for(var i=0; i<list.length; i++)
         {
@@ -202,9 +195,7 @@ exports.data_list = function(req, res, next) {
 
     else if(req.query.flag == 'luxury') {
 
-        var list = JSON.parse(req.query.data_list);
-        
-        var newList = [];
+        let newList = [];
         
         for(var i=0; i<list.length; i++)
         {

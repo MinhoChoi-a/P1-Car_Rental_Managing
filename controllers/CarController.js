@@ -1,9 +1,8 @@
-var Car = require('../models/car');
-
+const Car = require('../models/car');
 const AWS = require('aws-sdk');
-var async = require('async');
-
 const awsKey = require('../credential/AWS');
+
+const async = require('async');
 
 const s3 = new AWS.S3({
     accessKeyId: awsKey.access.accessKeyId,
@@ -12,6 +11,17 @@ const s3 = new AWS.S3({
 });
 
 const {body, validationResult} = require('express-validator');
+
+let style = ['Small', 'SUV', 'Luxury', 'Truck'];
+let status = ['Available', 'Lease', 'Maintanence'];
+let startYear = 2000;
+let yearList = [];
+
+for(var i = new Date().getFullYear(); i > startYear; i--)
+    {
+        yearList.push(i);
+    }
+
 
 exports.car_detail = function(req, res, next) {
 
@@ -24,7 +34,7 @@ exports.car_detail = function(req, res, next) {
     }, function(err, results) {
         if(err) {return next(err);}
         if(results.car==null) {
-            var err = new Error('Car not found');
+            let err = new Error('Car not found');
             err.status = 404;
             return next(err);
         }
@@ -34,8 +44,6 @@ exports.car_detail = function(req, res, next) {
 
         s3.getObject(params, function(err, file) {
             if(!err) {
-            
-            console.log(file.Body);
             let url = "data:image/jpeg;base64,"+ encode(file.Body)
             res.render('car_detail', {title: "INFORMATION", cars: results.car, link:url});
             }
@@ -51,17 +59,6 @@ function encode(data) {
 
 exports.car_register_get = function(req, res, next) {
 
-    var style = ['Small', 'SUV', 'Luxury', 'Truck'];
-    var status = ['Available', 'Lease', 'Maintanence'];
-
-    var startYear = 2000;
-    var yearList = [];
-
-    for(var i = new Date().getFullYear(); i > startYear; i--)
-    {
-        yearList.push(i);
-    }
-
     res.render('car_form', {title: 'REGISTER CAR', style_list: style, status_list: status, years: yearList});
 };
 
@@ -74,76 +71,44 @@ exports.car_register_post = [
 
           (req, res, next) => {
             
-            const errors = validationResult(req);
+            let errors = validationResult(req);
             let availableType = ["image/png", "image/jpg", "image/jpeg"];
-            let limitSize = 100000;
-
-            console.log(errors);
-            console.log(req.file);
-            console.log(req.body);
-
-            if(req.file === undefined)
+            let limitSize = 1000000; //10MB
+            
+            for(var i = new Date().getFullYear(); i > startYear; i--)
             {
-                console.log(req.body);
-                
-                var uploadError = "File must be uploaded";
-                
-                var car = new Car(
-                    { name: req.body.name,
-                      product_year: req.body.year,
-                      style: req.body.style,
-                      price: req.body.price,
-                      image_id: null,
-                      location: req.body.location,
-                      status: req.body.status,
-                      available_date: req.body.dateA
-                     });
-                
-                var style = ['Small', 'SUV', 'Luxury', 'Truck'];
-                var status = ['Available', 'Lease', 'Maintanence'];
-                var startYear = 2000;
-                var yearList = [];
-                
-                for(var i = new Date().getFullYear(); i > startYear; i--)
-                {
-                    yearList.push(i);
-                }
-                
-                res.render('car_form', {title: 'REGISTER CAR', car_info:car, style_list: style, status_list: status, years: yearList, errors: errors.array(), uploadError:uploadError});
-                   return;
+                yearList.push(i);
             }
             
-           
+            let car = new Car(
+                { name: req.body.name,
+                  product_year: req.body.year,
+                  style: req.body.style,
+                  price: req.body.price,
+                  image_id: null,
+                  location: req.body.location,
+                  status: req.body.status,
+                  available_date: req.body.dateA
+                 });
+            
+            if(req.file === undefined)
+            {
+                let uploadError = "File must be uploaded";
+            
+                res.render('car_form', {title: 'REGISTER CAR', car_info:car, style_list: style, status_list: status, years: yearList, errors: errors.array(), uploadError:uploadError});
+                return;
+            }
+            
             else if(!availableType.includes(req.file.mimetype) || req.file.size > limitSize)
             {
-                var uploadError = "check the file format";
-                
-                var car = new Car(
-                    { name: req.body.name,
-                      product_year: req.body.year,
-                      style: req.body.style,
-                      price: req.body.price,
-                      image_id: null,
-                      location: req.body.location,
-                      status: req.body.status,
-                      available_date: req.body.dateA
-                     });
-                
-                var style = ['Small', 'SUV', 'Luxury', 'Truck'];
-                var status = ['Available', 'Lease', 'Maintanence'];
-                var startYear = 2000;
-                var yearList = [];
-                
-                for(var i = new Date().getFullYear(); i > startYear; i--)
-                {
-                    yearList.push(i);
-                }
+                var uploadError = "Check the file format / size";
                 
                 res.render('car_form', {title: 'REGISTER CAR', car_info:car, style_list: style, status_list: status, years: yearList, errors: errors.array(), uploadError:uploadError});
-                   return;
+                return;
             }
 
-            else {
+            else 
+            {
             const file = req.file;
             
             const uniqueSuffix = Date.now();
@@ -160,62 +125,31 @@ exports.car_register_post = [
                 ACL: "public-read"
                 };
             
-            var car = new Car(
-                { name: req.body.name,
-                  product_year: req.body.year,
-                  style: req.body.style,
-                  price: req.body.price,
-                  image_id: fileName,
-                  location: req.body.location,
-                  status: req.body.status,
-                  available_date: req.body.dateA
-                 });
-            
-            var style = ['Small', 'SUV', 'Luxury', 'Truck'];
-            var status = ['Available', 'Lease', 'Maintanence'];
-            var startYear = 2000;
-            var yearList = [];
-                        
-            for(var i = new Date().getFullYear(); i > startYear; i--)
-            {
-                yearList.push(i);
-            }
+            car.image_id = fileName;
+      
+                if(!errors.isEmpty()) 
+                {
+                res.render('car_form', {title: 'REGISTER CAR', car_info:car, style_list: style, status_list: status, years: yearList, errors: errors.array(), file:file});
+                return;
+                }     
 
-            if(!errors.isEmpty()) 
-            {
-               res.render('car_form', {title: 'REGISTER CAR', car_info:car, style_list: style, status_list: status, years: yearList, errors: errors.array(), file:file});
-               return;
-            }     
-
-            else 
-            {
-               
-                car.save(function (err) {
-                  if(err) {return next(err);}
-                  s3.upload(params, function(err, data) {
+                else 
+                {
+                    car.save(function (err) {
                     if(err) {return next(err);}
-                    res.redirect(car.url); 
-                    }
-                    );
-                });  
-            }
+                    s3.upload(params, function(err, data) {
+                        if(err) {return next(err);}
+                        res.redirect(car.url); 
+                        }
+                        );
+                    });  
+                }
         }}
     ];
 
+
 exports.car_update_get = function(req, res, next) {
     
-        var style = ['Small', 'SUV', 'Luxury', 'Truck'];
-        var status = ['Available', 'Lease', 'Maintanence'];
-
-        var startYear = 2000;
-        var yearList = [];
-
-        for(var i = new Date().getFullYear(); i > startYear; i--)
-        {
-        yearList.push(i);
-        }
-        
-
     async.parallel({
         cars: function(callback) {
             Car.findById(req.params.id)
@@ -225,7 +159,7 @@ exports.car_update_get = function(req, res, next) {
     }, function(err, results) {
         if(err) {return next(err);}
         if(results.cars==null) {
-            var err = new Error('Car not found');
+            let err = new Error('Car not found');
             err.status = 404;
             return next(err);
         }
@@ -233,6 +167,7 @@ exports.car_update_get = function(req, res, next) {
      
     });    
 }
+
 
 exports.car_update_post = [
         
@@ -243,32 +178,31 @@ exports.car_update_post = [
     
     (req, res, next) => {
         
-        const errors = validationResult(req);
+        let errors = validationResult(req);
         
-        console.log(req.body);
-        console.log(req.body.dateA);
-
-        var style = ['Small', 'SUV', 'Luxury', 'Truck'];
-        var status = ['Available', 'Lease', 'Maintanence'];
-        var startYear = 2000;
-        var yearList = [];
-
-        for(var i = new Date().getFullYear(); i > startYear; i--)
-        {
-            yearList.push(i);
-        }
+        let car = new Car(
+            { name: req.body.name,
+              product_year: req.body.year,
+              style: req.body.style,
+              price: req.body.price,
+              image_id: null,
+              location: req.body.location,
+              status: req.body.status,
+              available_date: req.body.dateA,
+              _id: req.params.id
+             });
 
         if(req.file !== undefined)
         {
             if(errors.isEmpty()) 
             {
-                const file = req.file;
+                let file = req.file;
         
-                const uniqueSuffix = Date.now();
-                const fileName = file.fieldname + '-' + uniqueSuffix +'-' + file.originalname;
+                let uniqueSuffix = Date.now();
+                let fileName = file.fieldname + '-' + uniqueSuffix +'-' + file.originalname;
             
-                const myFile = file.originalname.split(".");
-                const fileType = myFile[myFile.length - 1];
+                let myFile = file.originalname.split(".");
+                let fileType = myFile[myFile.length - 1];
             
                 var params = {
                 Bucket: "test-s3-may",
@@ -278,18 +212,8 @@ exports.car_update_post = [
                 ACL: "public-read"
                 };
                 
-                var car = new Car(
-                    { name: req.body.name,
-                      product_year: req.body.year,
-                      style: req.body.style,
-                      price: req.body.price,
-                      image_id: fileName,
-                      location: req.body.location,
-                      status: req.body.status,
-                      available_date: req.body.dateA,
-                      _id: req.params.id
-                     });
-
+                car.image_id = fileName;
+                    
                 async.parallel({
                     cars: function(callback) {
                         Car.findById(req.params.id)
@@ -298,10 +222,10 @@ exports.car_update_post = [
                 }, async (err, results) => {
                     if(err) {return next(err);}
                     else {
-                        var paramsDel = {"Bucket": 'test-s3-may', 
+                        let paramsDel = {"Bucket": 'test-s3-may', 
                                 "Key": results.cars.image_id};
                         
-                        var updated_car = await Car.findByIdAndUpdate(req.params.id, car, {});
+                        let updated_car = await Car.findByIdAndUpdate(req.params.id, car, {});
 
                         s3.deleteObject(paramsDel, function(err, file) {
                             if(err) {return next(err)}
@@ -317,17 +241,6 @@ exports.car_update_post = [
             }
             
             else {
-                var car = new Car(
-                    { name: req.body.name,
-                      product_year: req.body.year,
-                      style: req.body.style,
-                      price: req.body.price,
-                      image_id: null,
-                      location: req.body.location,
-                      status: req.body.status,
-                      available_date: req.body.dateA,
-                      _id: req.params.id
-                     });
                 
                 res.render('car_form', {title: 'UPDATE CAR', car_info:car, style_list: style, status_list: status, years: yearList, errors: errors.array()});
                 return;
@@ -345,21 +258,12 @@ exports.car_update_post = [
                 }, async (err, results) => {
                 
                     try {
-                        var car = new Car(
-                            { name: req.body.name,
-                            product_year: req.body.year,
-                            style: req.body.style,
-                            price: req.body.price,
-                            image_id: results.cars.image_id,
-                            location: req.body.location,
-                            status: req.body.status,
-                            available_date: req.body.dateA,
-                            _id: req.params.id
-                            });
-    
-                        var updated_car = await Car.findByIdAndUpdate(req.params.id, car, {});
+                        car.image_id = results.cars.image_id;
+                        
+                        let updated_car = await Car.findByIdAndUpdate(req.params.id, car, {});
                         res.redirect(updated_car.url);
-                    } catch (error) {
+                    } 
+                    catch (error) {
                         return console.error(error);
                     } 
                    
@@ -368,18 +272,6 @@ exports.car_update_post = [
             
             else
             {
-                var car = new Car(
-                    { name: req.body.name,
-                    product_year: req.body.year,
-                    style: req.body.style,
-                    price: req.body.price,
-                    image_id: null,
-                    location: req.body.location,
-                    status: req.body.status,
-                    available_date: req.body.dateA,
-                    _id: req.params.id
-                    });
-                
                 res.render('car_form', {title: 'UPDATE CAR', car_info:car, style_list: style, status_list: status, years: yearList, errors: errors.array()});
                 return;
             }     
@@ -403,14 +295,14 @@ exports.car_delete_post = function(req, res, next) {
             return next(err);
         }
             
-        var params = {"Bucket": 'test-s3-may', 
+        let params = {"Bucket": 'test-s3-may', 
         "Key": results.car.image_id};
 
         s3.deleteObject(params, function(err, file) {
             if(!err) {
             Car.findByIdAndRemove(req.params.id, function deleteCar(err){
                 if(err) {return next(err);}
-                    res.redirect('/main/car/register'); 
+                    res.redirect('/car/register'); 
             });
             }
         });

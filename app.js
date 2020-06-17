@@ -2,9 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
 var mainRouter = require('./routes/catalog');
 
 var app = express();
@@ -12,7 +10,6 @@ var app = express();
 var mongoose = require('mongoose');
 var mongo = require('./credential/mongoDb');
 var mongoDB = mongo.mongoDB;
-
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -25,10 +22,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
  
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/main', mainRouter);
+app.use('/', mainRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

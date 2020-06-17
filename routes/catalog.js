@@ -1,25 +1,25 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const multer = require("multer");
 
-var search_controller = require('../controllers/SearchController');
-var car_controller = require('../controllers/CarController');
+const search_controller = require('../controllers/SearchController');
+const car_controller = require('../controllers/CarController');
 
-var storage = multer.memoryStorage({
+const storage = multer.memoryStorage({
     destination: function (req, file, cb) {
       cb(null, '')
     },
 });
 
-var upload = multer({ 
+const upload = multer({ 
   storage: storage
 
 });
 
+router.get('/', function(req, res, next) {
+  res.redirect('/search');
+});
 
-
-
-/* GET users listing. */
 router.get('/search', search_controller.search_menu_get);
 
 router.post('/search/list', search_controller.search_post);

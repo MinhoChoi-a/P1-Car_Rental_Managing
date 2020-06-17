@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var moment =require('moment');
+const mongoose = require('mongoose');
+const moment =require('moment');
 
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 var CarSchema = new Schema(
   {
@@ -20,7 +20,7 @@ var CarSchema = new Schema(
 CarSchema
 .virtual('url')
 .get(function () {
-  return '/main/car/' + this._id;
+  return '/car/' + this._id;
 });
 
 CarSchema
