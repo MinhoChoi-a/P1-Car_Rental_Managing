@@ -12,9 +12,7 @@ const s3 = new AWS.S3({
     region: 'us-west-1'
 });
 
-const {body, validationResult} = require('express-validator/check');
-const {sanitizeBody} = require('express-validator/filter');
-
+// const {body, validationResult} = require('express-validator');
 
 exports.search_menu_get = function(req, res, next) {
 
@@ -27,11 +25,13 @@ exports.search_menu_get = function(req, res, next) {
 
 exports.search_post =  [
 
-    sanitizeBody('location').escape(),
-    sanitizeBody('style').escape(),
-    sanitizeBody('dateFrom').toDate(),
-    sanitizeBody('dateTo').toDate(),
-
+    /**
+    body('location').escape(),
+    body('style').escape(),
+    body('dateFrom').toDate(),
+    body('dateTo').toDate(),
+     */
+    
     (req, res, next) => {
 
     var reserv = new Reservation(

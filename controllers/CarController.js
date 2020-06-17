@@ -11,8 +11,7 @@ const s3 = new AWS.S3({
     region: 'us-west-1'
 });
 
-const {body, validationResult} = require('express-validator/check');
-const {sanitizeBody} = require('express-validator/filter');
+const {body, validationResult} = require('express-validator');
 
 exports.car_detail = function(req, res, next) {
 
@@ -73,12 +72,7 @@ exports.car_register_post = [
         body('location').isLength({min:1}).trim().withMessage('Location must be specified.'),
         //body('price').matches(/^(?=.*\d)[0-9]$/, "i").withMessage('Price must be correct.'),
 
-        sanitizeBody('name').escape(),
-        sanitizeBody('price').escape(),
-        sanitizeBody('location').escape(),
-        sanitizeBody('dateA').toDate(),
-        
-        (req, res, next) => {
+          (req, res, next) => {
             
             const errors = validationResult(req);
             
@@ -212,12 +206,6 @@ exports.car_update_post = [
     body('price').isNumeric({ min: 0.00, max: 1000.00 }).withMessage('Price must be correct.'),
     body('location').isLength({min:1}).trim().withMessage('Location must be specified.'),
     //body('price').matches(/^(?=.*\d)[0-9]$/, "i").withMessage('Price must be correct.'),
-
-    sanitizeBody('name').escape(),
-    sanitizeBody('price').escape(),
-    sanitizeBody('location').escape(),
-    sanitizeBody('dateA').toDate(),
-    
     
     (req, res, next) => {
         
