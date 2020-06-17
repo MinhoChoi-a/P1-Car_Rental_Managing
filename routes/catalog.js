@@ -11,21 +11,9 @@ var storage = multer.memoryStorage({
     },
 });
 
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg"
-  ) {
-    cb(null, true);
-  } else {
-    cb(file.mimetype="err", true); // if validation failed then generate error
-  }
-};
-
 var upload = multer({ 
-  storage: storage, 
-  fileFilter: fileFilter
+  storage: storage
+
 });
 
 

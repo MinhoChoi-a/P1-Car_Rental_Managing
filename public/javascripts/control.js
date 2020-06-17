@@ -39,6 +39,7 @@ jQuery(document).ready(function($){
     if(window.location.pathname == '/main/car/list') {
         $.get('/main/car/list/partial', {
             flag: 'year'}).then(function (data) {
+                console.log(data);
                 $('tbody#data-list').html(data);
             });
         }

@@ -75,8 +75,11 @@ exports.car_register_post = [
           (req, res, next) => {
             
             const errors = validationResult(req);
-            
-            console.log(req.file.mimetype);
+            let availableType = ["image/png", "image/jpg", "image/jpeg"];
+            let limitSize = 100000;
+
+            console.log(errors);
+            console.log(req.file);
             console.log(req.body);
 
             if(req.file === undefined)
@@ -110,6 +113,37 @@ exports.car_register_post = [
                    return;
             }
             
+           
+            else if(!availableType.includes(req.file.mimetype) || req.file.size > limitSize)
+            {
+                var uploadError = "check the file format";
+                
+                var car = new Car(
+                    { name: req.body.name,
+                      product_year: req.body.year,
+                      style: req.body.style,
+                      price: req.body.price,
+                      image_id: null,
+                      location: req.body.location,
+                      status: req.body.status,
+                      available_date: req.body.dateA
+                     });
+                
+                var style = ['Small', 'SUV', 'Luxury', 'Truck'];
+                var status = ['Available', 'Lease', 'Maintanence'];
+                var startYear = 2000;
+                var yearList = [];
+                
+                for(var i = new Date().getFullYear(); i > startYear; i--)
+                {
+                    yearList.push(i);
+                }
+                
+                res.render('car_form', {title: 'REGISTER CAR', car_info:car, style_list: style, status_list: status, years: yearList, errors: errors.array(), uploadError:uploadError});
+                   return;
+            }
+
+            else {
             const file = req.file;
             
             const uniqueSuffix = Date.now();
@@ -165,7 +199,7 @@ exports.car_register_post = [
                     );
                 });  
             }
-        }
+        }}
     ];
 
 exports.car_update_get = function(req, res, next) {
