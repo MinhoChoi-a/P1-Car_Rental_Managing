@@ -4,9 +4,11 @@ var Reservation = require('../models/reservation');
 const AWS = require('aws-sdk');
 var async = require('async');
 
+const awsKey = require('../credential/AWS');
+
 const s3 = new AWS.S3({
-    accessKeyId: "AKIA5DWR6HFBO4UKBPE3",
-    secretAccessKey: "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",
+    accessKeyId: awsKey.access.accessKeyId,
+    secretAccessKey: awsKey.access.secretAccessKey,
     region: 'us-west-1'
 });
 
