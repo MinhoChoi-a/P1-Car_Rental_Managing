@@ -47,6 +47,9 @@ exports.car_detail = function(req, res, next) {
             let url = "data:image/jpeg;base64,"+ encode(file.Body)
             res.render('car_detail', {title: "INFORMATION", cars: results.car, link:url});
             }
+            else {
+                console.log(err.message);
+            }
         });
     });
 };
