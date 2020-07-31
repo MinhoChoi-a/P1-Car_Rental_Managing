@@ -67,16 +67,15 @@ exports.car_register_get = function(req, res, next) {
 
 exports.car_register_post = [
         
-        body('name').isLength({min:1}).trim().withMessage('Name must be specified.'),
-        body('price').isNumeric({ min: 0.00, max: 1000.00 }).withMessage('Price must be correct.'),
-        body('location').isLength({min:1}).trim().withMessage('Location must be specified.'),
-        //body('price').matches(/^(?=.*\d)[0-9]$/, "i").withMessage('Price must be correct.'),
-
+        body('name').isLength({min:1}).trim().withMessage('Name must be specified'),
+        body('price').isNumeric({ min: 0.00, max: 1000.00 }).withMessage('Price must be correct number'),
+        //body('location').isLength({min:1}).trim().withMessage('Location must be specified'),
+        
           (req, res, next) => {
             
             let errors = validationResult(req);
             let availableType = ["image/png", "image/jpg", "image/jpeg"];
-            let limitSize = 1000000; //10MB
+            let limitSize = 5000000; //5MB
             
             for(var i = new Date().getFullYear(); i > startYear; i--)
             {

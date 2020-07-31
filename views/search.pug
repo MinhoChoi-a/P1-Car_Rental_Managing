@@ -6,9 +6,9 @@ block content
     h1= title
   
   .container-fluid.Search
-    form.container.Search_form(method='POST' action='/main/search/list')
+    form.container.Search_form(method='POST' action='/search/list')
       .form-row(class='row justify-content-start')
-        .form-group(class=['col-xs-12', 'col-md-6'])
+        .form-group(class=['col-xs-6', 'col-md-6'])
           label(for='dateFrom') Start Date
           input#dateFrom.form-control(type='date' name='dateFrom')
           div(id="errorM")
@@ -17,7 +17,7 @@ block content
                 if error.param == "date_from"
                   != error.msg
             
-        .form-group(class=['col-xs-12', 'col-md-6'])
+        .form-group(class=['col-xs-6', 'col-md-6'])
           label(for='dateTo') End Date
           input#dateTo.form-control(type='date' name='dateTo')
           div(id="errorM")

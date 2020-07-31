@@ -1,7 +1,7 @@
 if data_list && reservFlag != "yes"
   for data in data_list
     tr(class="clickable-rs" data-href= data.url)
-      td #{data.name}
+      td.name #{data.name}
       td #{data.price}
       td #{data.product_year}
       td #{data.style}
@@ -10,7 +10,7 @@ if data_list && reservFlag == "yes"
   for data in data_list
     - var link = data._id;
     tr(class="clickable-tr" data-href= "/main/car/"+ link)
-      td #{data.name}
+      td.name #{data.name}
       td #{data.price}
       td #{data.product_year}
       td #{data.style}

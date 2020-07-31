@@ -37,14 +37,15 @@ block content
                 option(value=s) #{s}
         
         div.form-group(class=['col-xs-4', 'col-md-4'])          
-          label(for='price') Price per a Day
+          label(for='price') Price
           .input-group
             span.input-group-addon $
             input#price.form-control(type='text' name='price' value=(undefined===car_info ? '' : car_info.price))
-          if errors
-            for error in errors
-              if error.param == "price"
-                != error.msg
+          div(id="errorM")
+            if errors
+              for error in errors
+                if error.param == "price"
+                  != error.msg
         div.form-group(class=['col-xs-4', 'col-md-4'])
           label(for='location') Location
           input#location.form-control(type='text' name='location' value=(undefined===car_info ? '' : car_info.location))
@@ -62,10 +63,11 @@ block content
           label(for='dateA') Available Date
           input#dateA.form-control(type='date' name='dateA' value=(undefined===car_info ? '' : car_info.available_date_formatted))     
         div.form-group(class=['col-xs-12', 'col-md-4'])
-          label(for='image_file') Image
+          label(for='image_file') Image (5MB limit)
           input#image_file.form-control-file(type='file' name='image_file')
-          if uploadError
-              != uploadError
+          div(id="errorM")
+            if uploadError
+                != uploadError
       div(class='text-center')
         button(class='btn btn-primary' type='submit')
           | REGISTER
