@@ -1,5 +1,4 @@
+.env
+.env.test
 
-AWS.js
-mongoDb.js
-
-/credential
+/node_modules

@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -8,8 +10,7 @@ var mainRouter = require('./routes/catalog');
 var app = express();
 
 var mongoose = require('mongoose');
-var mongo = require('./credential/mongoDb');
-var mongoDB = mongo.mongoDB;
+var mongoDB = process.env.mongoDB;
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));

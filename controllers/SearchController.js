@@ -1,14 +1,14 @@
+require('dotenv').config();
+
 const Car = require('../models/car');
 const Reservation = require('../models/reservation');
 
 const AWS = require('aws-sdk');
 const async = require('async');
 
-const awsKey = require('../credential/AWS');
-
 const s3 = new AWS.S3({
-    accessKeyId: awsKey.access.accessKeyId,
-    secretAccessKey: awsKey.access.secretAccessKey,
+    accessKeyId: process.env.AWS_accessKeyId,
+    secretAccessKey: process.env.AWS_secretAccessKey,
     region: 'us-west-1'
 });
 
