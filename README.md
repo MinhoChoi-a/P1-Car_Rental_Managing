@@ -9,9 +9,8 @@ http://ec2-54-213-101-22.us-west-2.compute.amazonaws.com
 
 ### Prerequisites
 -	Node.js
--	AWS account: user credential with the full permission to access AWS S3
--	MongoDB account
-To manage data, I used MongoDB for a car information and used AWS S3 to upload and load the image file.
+-	AWS account (user credential with the full permission to access AWS S3.)
+-	MongoDB account (To manage data, I used MongoDB for a car information and used AWS S3 to upload and load the image file.)
 
 Also, this web app uses a several npm packages.
 -	aws-sdk
