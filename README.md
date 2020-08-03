@@ -40,7 +40,7 @@ Also, most components are based on Boostrap.
 2.	Set multiple company locations and give the nearest location to users with Google map api
 
 ## Authors
-**MINHO CHOI** [PurpleBooth](http://www.minhoproject.studio)
+**MINHO CHOI** http://www.minhoproject.studio
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
