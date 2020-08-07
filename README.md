@@ -2,7 +2,7 @@
 Users can register and update their cars' information with image and search the available car in a specific date.
 
 ## Getting Started
-This web-application is developed on Node.js. Also, I set up the Express.js as a web-framework. 
+This web-application is developed with Node.js. Also, I set up the Express.js as a web-framework. 
 To deploy this program, I set web server with nginx on AWS EC2(amazon ami – free tier). 
 If you want to check how this code is working on actual site. You can go to this link.
 http://ec2-54-213-101-22.us-west-2.compute.amazonaws.com
