@@ -7,7 +7,7 @@ To deploy this program, I set web server with nginx on AWS EC2(amazon ami – fr
 If you want to check how this code is working on actual site. You can go to this link.
 http://ec2-54-213-101-22.us-west-2.compute.amazonaws.com
 
-### Prerequisites
+## Prerequisites
 -	Node.js
 -	AWS account (user credential with the full permission to access AWS S3.)
 -	MongoDB account (To manage data, I used MongoDB for a car information and used AWS S3 to upload and load the image file.)
