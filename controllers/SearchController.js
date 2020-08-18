@@ -3,6 +3,8 @@ require('dotenv').config();
 const Car = require('../models/car');
 const Reservation = require('../models/reservation');
 
+const {body, validationResult} = require('express-validator');
+
 const AWS = require('aws-sdk');
 const async = require('async');
 
@@ -17,22 +19,17 @@ var style = ['All', 'Small', 'SUV', 'Luxury', 'Truck'];
 exports.search_menu_get = function(req, res, next) {
     
     Car.updateMany({available_date: {$lt: new Date()}}, {$set: {status: 'Available'}}, 
-    function(err, affected, resp) {
+    function(err) {
+
+        if(!err)
         res.render('search', {title: 'SEARCH CAR', style_list: style});
 });
 }
 
 exports.search_post =  [
 
-    /**
-    body('location').escape(),
-    body('style').escape(),
-    body('dateFrom').toDate(),
-    body('dateTo').toDate(),
-     */
-    
     (req, res, next) => {
-
+    
     let reserv = new Reservation(
         {
             start_date: req.body.dateFrom,
@@ -43,6 +40,45 @@ exports.search_post =  [
         }
     )
     
+    let errors = [
+        {msg: '',
+        param: 'dateFrom'},
+        {msg: '',
+        param: 'dateTo'},
+        {msg: '',
+        param: 'location'},
+        {msg: false,
+        param: 'check'},
+    ];
+    
+    console.log(req.body);
+    console.log(errors);
+
+    if(req.body.dateFrom > req.body.dateTo) {
+        errors[0].msg = 'Start date should be prior to End date';
+        errors[3].msg = true;
+    }
+
+    if(req.body.dateFrom == '') {
+        errors[0].msg = "Date should be specified";
+        errors[3].msg = true;
+    }    
+    
+    if(req.body.dateTo == '') {
+        errors[1].msg = "Date should be specified";
+        errors[3].msg = true;
+    }
+    
+    console.log(errors);
+
+    if(errors[3].msg  == true)
+    {
+        console.log(errors);
+        res.render('search', {title: 'SEARCH CAR', style_list: style, errors: errors});
+        return;
+    }     
+
+
     if(req.body.style == "All")
     {
 

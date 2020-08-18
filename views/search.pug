@@ -14,7 +14,7 @@ block content
           div(id="errorM")
             if errors
               for error in errors
-                if error.param == "date_from"
+                if error.param == "dateFrom"
                   != error.msg
             
         .form-group(class=['col-xs-6', 'col-md-6'])
@@ -23,7 +23,7 @@ block content
           div(id="errorM")
             if errors
               for error in errors
-                if error.param == "date_to"
+                if error.param == "dateTo"
                   != error.msg
     
       .form-row(class='row justify-content-start')
