@@ -3,8 +3,6 @@ require('dotenv').config();
 const Car = require('../models/car');
 const Reservation = require('../models/reservation');
 
-const {body, validationResult} = require('express-validator');
-
 const AWS = require('aws-sdk');
 const async = require('async');
 
@@ -78,7 +76,7 @@ exports.search_post =  [
         return;
     }     
 
-
+    
     if(req.body.style == "All")
     {
 

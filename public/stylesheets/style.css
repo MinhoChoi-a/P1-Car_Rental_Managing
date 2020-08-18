@@ -210,6 +210,13 @@ table#list_table>thead {
   height:70px;
 }
 
+.input-group .location_button {
+  border-style: none;
+  background: none;
+  padding: 0;
+}
+
+
 #errorM {
   color : red;
   font-style: italic;

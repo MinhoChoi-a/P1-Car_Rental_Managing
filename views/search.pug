@@ -29,7 +29,11 @@ block content
       .form-row(class='row justify-content-start')
         .form-group(class=['col-xs-12', 'col-md-6'])
           label(for='location') Location
-          input#location.form-control(type='text' name='location' placeholder='leave this as empty until get the goole api' value=(undefined===res_info ? '' : res_info.location))
+          .input-group
+            input#location.form-control(type='text' name='location' placeholder='leave this as empty until get the goole api' value=(undefined===res_info ? '' : res_info.location))
+            span.input-group-addon
+              button.location_button
+                | Find Location
           div(id="errorM")
             if errors
               for error in errors
