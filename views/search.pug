@@ -1,7 +1,7 @@
 extends layout
-
-block content
   
+block content
+
   .container-fluid.Search_head
     h1= title
   
@@ -27,19 +27,7 @@ block content
                   != error.msg
     
       .form-row(class='row justify-content-start')
-        .form-group(class=['col-xs-12', 'col-md-6'])
-          label(for='location') Location
-          .input-group
-            input#location.form-control(type='text' name='location' placeholder='leave this as empty until get the goole api' value=(undefined===res_info ? '' : res_info.location))
-            span.input-group-addon
-              button.location_button
-                | Find Location
-          div(id="errorM")
-            if errors
-              for error in errors
-                if error.param == "location"
-                  != error.msg
-            
+        
         .form-group(class=['col-xs-12', 'col-md-6'])
           label(for='style') Style
           select#style.form-control(type='select' name='style')
@@ -54,6 +42,21 @@ block content
                 if error.param == "style"
                   != error.msg
 
+        .form-group(class=['col-xs-12', 'col-md-6'])
+          label(for='location') Location
+          .input-group
+            input#location.form-control(type='text' name='location' placeholder='leave this as empty until get the goole api' value=(undefined===res_info ? '' : res_info.location) autocomplete="off")
+            span.input-group-addon
+              button.location_button(type='button')
+                | Find Location
+          div(id="errorM")
+            if errors
+              for error in errors
+                if error.param == "location"
+                  != error.msg
+        
+        .form-group(class=['col-xs-12'] id="map")
+
       div(class='text-center')
         button(class='btn btn-primary' type='submit')
           | SEARCH
@@ -62,3 +65,5 @@ block content
   
 
   .container-bottom
+
+  script(type="text/javascript" src="/javascripts/location.js")
