@@ -1,8 +1,7 @@
 var xmlhttp = new XMLHttpRequest();
 var url = "../db/data.json";
-
-var xmlhttp_api = new XMLHttpRequest();
 var url_api = "../db/api.json";
+var url_office = "../db/office.json";
 
 const input__location = document.querySelector('.input-group #location');
 const location__button = document.querySelector('.input-group .location_button');
@@ -81,10 +80,10 @@ const map_window = document.querySelector('#map');
 
 location__button.addEventListener("click", function (e) {
   
-  xmlhttp_api.onreadystatechange = function() {
+  xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         var api = JSON.parse(this.responseText);
-        
+        console.log(api);
         const apiKey = api[0].api;
         console.log(apiKey);
 
@@ -97,8 +96,8 @@ location__button.addEventListener("click", function (e) {
         
       }
   };
-  xmlhttp_api.open("GET", url_api, true);
-  xmlhttp_api.send();
+  xmlhttp.open("GET", url_api, true);
+  xmlhttp.send();
 
 })
 
@@ -132,23 +131,90 @@ function getGeocode(input, apiKey) {
     });
 }
 
-let map;
+let infoWindow;
+let currentInfoWindow;
+let currentIcon;
 
 function initMap(long, lati) {
   
-  document.querySelector('#map').style.height = '300px';
+  infoWindow = new google.maps.InfoWindow;
+  currentInfoWindow = infoWindow;
+  currentIcon = new google.maps.Marker;
 
-  map = new google.maps.Map(map_window, {
-    center: {lat: lati, lng: long},
-    zoom: 8
-  });
+  xmlhttp.onreadystatechange = function() {
+    
+    let map = new google.maps.Map(map_window, {
+      center: {lat: lati, lng: long},
+      zoom: 12,
+      mapTypeControlOptions: {
+        mapTypeIds: 'roadmap'
+      }    
+    });
+      
+    if (this.readyState == 4 && this.status == 200) {
+        var office_list = JSON.parse(this.responseText);
+        
+        office_list.forEach((office) => {
+          let marker = new google.maps.Marker({
+            position: {lat: office.lat, lng: office.lng},
+            map: map,
+            title: office.name,
+            icon: {
+              url: '../images/gps.svg',
+              scaledSize: new google.maps.Size(40,40),
+            }
+          });       
+          
+          google.maps.event.addListener(marker, "click", () => {
+            
+            let office_info = {
+              name: office.name,
+              info: office.info,
+              address: office.address
+            }
+            showDetails(office_info, marker);
+            
+            marker.setIcon({
+              url: '../images/gps_color.png',
+              scaledSize: new google.maps.Size(40,40)    
+            });
+            
+            currentIcon.setIcon({
+              url: '../images/gps.svg',
+              scaledSize: new google.maps.Size(40,40),
+            });
 
-  map_window.firstChild.style.position = 'relative';
+            currentIcon = marker;
+            input__location.value = office_info.address;
+            
+        });
+      
+        });
 
-  console.log(map_window.firstChild);
-
-  console.log(map);
+        document.querySelector('#map').style.height = '300px';
+      
+        console.log(map_window.firstChild);
+      
+      }
+  };
+  xmlhttp.open("GET", url_office, true);
+  xmlhttp.send();
 }
   
+function showDetails(info, marker) {
+  
+  console.log(marker);
 
+  let placeInfowindow = new google.maps.InfoWindow();
+      
+      placeInfowindow.setContent(
+         `<div><strong>${info.name}</strong><br>
+          <strong>${info.info}</strong><br>
+          </div>`
+      );
+
+      placeInfowindow.open(marker.map, marker);
+      currentInfoWindow.close();
+      currentInfoWindow = placeInfowindow;
+}
 
