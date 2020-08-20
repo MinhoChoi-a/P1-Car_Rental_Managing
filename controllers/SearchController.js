@@ -40,7 +40,7 @@ exports.search_menu_get = function(req, res, next) {
     function(err) {
 
         if(!err)
-        res.render('search', {title: 'SEARCH CAR', res_info: res_info, style_list: style, errors: errors});
+        res.render('search', {title: 'SEARCH CAR', style_list: style});
         return;
 });
 }
