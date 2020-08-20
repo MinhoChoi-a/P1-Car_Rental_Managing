@@ -77,7 +77,6 @@ exports.search_post =  [
 
         if(office.address == req.body.location) {
             checkOffice = true;
-            return;
         }
     });
     
@@ -99,8 +98,8 @@ exports.search_post =  [
         res.render('search', {title: 'SEARCH CAR', res_info: res_info, style_list: style, errors: errors});
         return;
     }}
-    catch {
-        res.send(errors);
+    catch(err) {
+        res.send(errors + err.message);
     }     
     
     if(req.body.style == "All")
