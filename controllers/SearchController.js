@@ -63,7 +63,7 @@ exports.search_post =  [
 
     try {
 
-    if(req.body.dateF > req.body.dateTo) {
+    if(req.body.dateFrom > req.body.dateTo) {
         console.log("first check");
         errors[0].msg = 'Start date should be prior to End date';
         errors[3].msg = true;
