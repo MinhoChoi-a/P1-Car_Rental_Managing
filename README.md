@@ -32,11 +32,11 @@ This web-application is designed with pug to make easy to use jquery on list pag
 Also, most components are based on Boostrap.
 
 ## Version
-1.0.0
+2.0.0
 
 ### Upcoming update
 1.	user authentication system with Passport
-2.	Set multiple company locations and give the nearest location to users with Google map api
+2.	Set multiple company locations and give the nearest location to users with Google map api (updated)
 
 ## Authors
 **MINHO CHOI** http://www.minhoproject.studio
