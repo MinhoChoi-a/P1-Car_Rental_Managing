@@ -6,6 +6,8 @@ const Reservation = require('../models/reservation');
 const AWS = require('aws-sdk');
 const async = require('async');
 
+const office_info = require('../public/db/office.json');
+
 const s3 = new AWS.S3({
     accessKeyId: process.env.AWS_accessKeyId,
     secretAccessKey: process.env.AWS_secretAccessKey,
@@ -49,9 +51,6 @@ exports.search_post =  [
         param: 'check'},
     ];
     
-    console.log(req.body);
-    console.log(errors);
-
     if(req.body.dateFrom > req.body.dateTo) {
         errors[0].msg = 'Start date should be prior to End date';
         errors[3].msg = true;
@@ -67,15 +66,36 @@ exports.search_post =  [
         errors[3].msg = true;
     }
     
-    console.log(errors);
+    let checkOffice = false;
+
+    office_info.forEach((office) => {
+        
+        console.log(office.address);
+        console.log(req.body.location);
+
+        if(office.address == req.body.location) {
+            checkOffice = true;
+            return;
+        }
+    });
+    
+    if(checkOffice == false) {
+        errors[2].msg = "It is not our office address. please find again."
+        errors[3].msg = true;
+    }
 
     if(errors[3].msg  == true)
     {
-        console.log(errors);
-        res.render('search', {title: 'SEARCH CAR', style_list: style, errors: errors});
+        let res_info = {
+            start: req.body.dateFrom,
+            end: req.body.dateTo,
+            location: req.body.location,
+            style: req.body.style
+        };
+
+        res.render('search', {title: 'SEARCH CAR', res_info: res_info, style_list: style, errors: errors});
         return;
     }     
-
     
     if(req.body.style == "All")
     {

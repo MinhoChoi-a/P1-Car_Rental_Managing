@@ -1,16 +1,16 @@
 extends layout
-
-block content
   
+block content
+
   .container-fluid.Search_head
     h1= title
   
   .container-fluid.Search
-    form.container.Search_form(method='POST' action='/search/list')
+    form.container.Search_form(method='POST' action='/search/list' onkeydown="return event.key != 'Enter';")
       .form-row(class='row justify-content-start')
         .form-group(class=['col-xs-6', 'col-md-6'])
           label(for='dateFrom') Start Date
-          input#dateFrom.form-control(type='date' name='dateFrom')
+          input#dateFrom.form-control(type='date' name='dateFrom' value=(undefined===res_info ? '' : res_info.start))
           div(id="errorM")
             if errors
               for error in errors
@@ -19,7 +19,7 @@ block content
             
         .form-group(class=['col-xs-6', 'col-md-6'])
           label(for='dateTo') End Date
-          input#dateTo.form-control(type='date' name='dateTo')
+          input#dateTo.form-control(type='date' name='dateTo' value=(undefined===res_info ? '' : res_info.end))
           div(id="errorM")
             if errors
               for error in errors
@@ -27,19 +27,7 @@ block content
                   != error.msg
     
       .form-row(class='row justify-content-start')
-        .form-group(class=['col-xs-12', 'col-md-6'])
-          label(for='location') Location
-          .input-group
-            input#location.form-control(type='text' name='location' placeholder='leave this as empty until get the goole api' value=(undefined===res_info ? '' : res_info.location))
-            span.input-group-addon
-              button.location_button
-                | Find Location
-          div(id="errorM")
-            if errors
-              for error in errors
-                if error.param == "location"
-                  != error.msg
-            
+        
         .form-group(class=['col-xs-12', 'col-md-6'])
           label(for='style') Style
           select#style.form-control(type='select' name='style')
@@ -54,6 +42,21 @@ block content
                 if error.param == "style"
                   != error.msg
 
+        .form-group(class=['col-xs-12', 'col-md-6'])
+          label(for='location') Where to go
+          .input-group
+            input#location.form-control(type='text' name='location' placeholder='any places' value=(undefined===res_info ? '' : res_info.location) autocomplete="off")
+            span.input-group-addon
+              button.location_button(type='button')
+                | Find Office
+          div(id="errorM")
+            if errors
+              for error in errors
+                if error.param == "location"
+                  != error.msg
+        
+        .form-group(class=['col-xs-12'] id="map")
+
       div(class='text-center')
         button(class='btn btn-primary' type='submit')
           | SEARCH
@@ -62,3 +65,5 @@ block content
   
 
   .container-bottom
+
+  script(type="text/javascript" src="/javascripts/location.js")

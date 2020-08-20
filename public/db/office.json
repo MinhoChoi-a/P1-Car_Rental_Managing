@@ -1,0 +1,42 @@
+[
+    {
+        "name": "SAIT",
+        "lat": 51.064089,
+        "lng": -114.08854,
+        "info": "we are good",
+        "address": "1301 16 Ave NW, Calgary, AB"
+    },
+
+    {
+        "name": "U of C",
+        "lat": 51.077591,
+        "lng": -114.140695,
+        "info": "we are good",
+        "address": "2500 University Dr NW, Calgary, AB"
+    },
+
+    {
+        "name": "Bow Valley",
+        "lat": 51.046921,
+        "lng": -114.055997,
+        "info": "we are good",
+        "address": "345 6 Ave SE, Calgary, AB"
+    },
+
+    {
+        "name": "U of A",
+        "lat": 53.23219,
+        "lng": -113.526319,
+        "info": "we are good",
+        "address": "333 5 Ave SW, Calgary, AB"
+    },
+
+    {
+        "name": "NAIT",
+        "lat": 53.569384,
+        "lng": -113.503322,
+        "info": "we are good",
+        "address": "11762 - 106 Street Edmonton, AB"
+    }
+]
+
