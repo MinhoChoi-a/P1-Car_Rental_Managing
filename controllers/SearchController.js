@@ -40,6 +40,7 @@ exports.search_post =  [
         }
     )
     
+    try {
     let errors = [
         {msg: '',
         param: 'dateFrom'},
@@ -97,6 +98,9 @@ exports.search_post =  [
 
         res.render('search', {title: 'SEARCH CAR', res_info: res_info, style_list: style, errors: errors});
         return;
+    }}
+    catch {
+        res.send(errors);
     }     
     
     if(req.body.style == "All")
