@@ -10,18 +10,13 @@ var myArr = [];
 xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         myArr = JSON.parse(this.responseText);
-        console.log(myArr);
       }
 };
 xmlhttp.open("GET", url, true);
 xmlhttp.send();
 
-console.log(input__location);
-
 input__location.addEventListener("input", function() {
     
-    console.log(myArr);
-
     var a, b, i, val = this.value;
 
     closeAllLists();
@@ -74,19 +69,16 @@ document.addEventListener("click", function (e) {
     closeAllLists(e.target);
 });
 
-console.log(location__button);
-
 const map_window = document.querySelector('#map');
 
 location__button.addEventListener("click", function (e) {
   
+  e.preventDefault();
+
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         var api = JSON.parse(this.responseText);
-        console.log(api);
         const apiKey = api[0].api;
-        console.log(apiKey);
-
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
@@ -111,16 +103,12 @@ function getGeocode(input, apiKey) {
     address += '+' + data[i];
   }
 
-  console.log(address);
-
   var geoCodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`;
 
   fetch(geoCodeUrl)
       .then(response => response.json())
       .then(data => {
         
-        console.log(data);
-
         var geocode = data.results[0].geometry.location;
         var { lat, lng } = geocode;
         
@@ -137,6 +125,8 @@ let currentIcon;
 
 function initMap(long, lati) {
   
+  document.querySelector('#map').innerHTML = '';
+
   infoWindow = new google.maps.InfoWindow;
   currentInfoWindow = infoWindow;
   currentIcon = new google.maps.Marker;
@@ -148,19 +138,30 @@ function initMap(long, lati) {
       zoom: 12,
       mapTypeControlOptions: {
         mapTypeIds: 'roadmap'
-      }    
+      },
+      clickableIcons: false,
+      draggableCursor:'default',// this is for cursor type
+      minZoom: 10, // this is for min zoom for map
+      maxZoom: 15, // this is for max zoom for map    
     });
-      
+    
+    let check = false;
+
     if (this.readyState == 4 && this.status == 200) {
         var office_list = JSON.parse(this.responseText);
         
         office_list.forEach((office) => {
+          
+          if(parseInt(lati) == parseInt(office.lat) && parseInt(long) == parseInt(office.lng)) {
+          
+          check = true;
+
           let marker = new google.maps.Marker({
             position: {lat: office.lat, lng: office.lng},
             map: map,
             title: office.name,
             icon: {
-              url: '../images/gps.svg',
+              url: '../images/pin.svg',
               scaledSize: new google.maps.Size(40,40),
             }
           });       
@@ -175,26 +176,33 @@ function initMap(long, lati) {
             showDetails(office_info, marker);
             
             marker.setIcon({
-              url: '../images/gps_color.png',
+              url: '../images/pin_color.svg',
               scaledSize: new google.maps.Size(40,40)    
             });
             
             currentIcon.setIcon({
-              url: '../images/gps.svg',
+              url: '../images/pin.svg',
               scaledSize: new google.maps.Size(40,40),
             });
 
             currentIcon = marker;
             input__location.value = office_info.address;
             
-        });
+          });
+        }
       
-        });
+      });
+        
+      if(check == false) {
+        const sorry = document.createElement("div");
+        sorry.classList.add("sorry");
+        const markup = "<h3>Sorry we don't have a office in this area</h3>";
+        sorry.innerHTML = markup;
+        document.querySelector('#map').appendChild(sorry);
+      }
 
         document.querySelector('#map').style.height = '300px';
-      
-        console.log(map_window.firstChild);
-      
+
       }
   };
   xmlhttp.open("GET", url_office, true);
@@ -203,8 +211,6 @@ function initMap(long, lati) {
   
 function showDetails(info, marker) {
   
-  console.log(marker);
-
   let placeInfowindow = new google.maps.InfoWindow();
       
       placeInfowindow.setContent(
@@ -218,3 +224,13 @@ function showDetails(info, marker) {
       currentInfoWindow = placeInfowindow;
 }
 
+
+function distance(lat1, lon1, lat2, lon2) {
+  var p = 0.017453292519943295;    // Math.PI / 180
+  var c = Math.cos;
+  var a = 0.5 - c((lat2 - lat1) * p)/2 + 
+          c(lat1 * p) * c(lat2 * p) * 
+          (1 - c((lon2 - lon1) * p))/2;
+
+  return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+}

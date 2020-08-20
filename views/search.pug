@@ -6,11 +6,11 @@ block content
     h1= title
   
   .container-fluid.Search
-    form.container.Search_form(method='POST' action='/search/list')
+    form.container.Search_form(method='POST' action='/search/list' onkeydown="return event.key != 'Enter';")
       .form-row(class='row justify-content-start')
         .form-group(class=['col-xs-6', 'col-md-6'])
           label(for='dateFrom') Start Date
-          input#dateFrom.form-control(type='date' name='dateFrom')
+          input#dateFrom.form-control(type='date' name='dateFrom' value=(undefined===res_info ? '' : res_info.start))
           div(id="errorM")
             if errors
               for error in errors
@@ -19,7 +19,7 @@ block content
             
         .form-group(class=['col-xs-6', 'col-md-6'])
           label(for='dateTo') End Date
-          input#dateTo.form-control(type='date' name='dateTo')
+          input#dateTo.form-control(type='date' name='dateTo' value=(undefined===res_info ? '' : res_info.end))
           div(id="errorM")
             if errors
               for error in errors
@@ -43,12 +43,12 @@ block content
                   != error.msg
 
         .form-group(class=['col-xs-12', 'col-md-6'])
-          label(for='location') Location
+          label(for='location') Where to go
           .input-group
-            input#location.form-control(type='text' name='location' placeholder='leave this as empty until get the goole api' value=(undefined===res_info ? '' : res_info.location) autocomplete="off")
+            input#location.form-control(type='text' name='location' placeholder='any places' value=(undefined===res_info ? '' : res_info.location) autocomplete="off")
             span.input-group-addon
               button.location_button(type='button')
-                | Find Location
+                | Find Office
           div(id="errorM")
             if errors
               for error in errors
