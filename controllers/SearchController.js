@@ -22,16 +22,15 @@ exports.search_menu_get = function(req, res, next) {
     function(err) {
 
         if(!err)
-        res.render('search', {title: 'SEARCH CAR', style_list: style});
-        return;
+        res.render('search', {title: 'SEARCH CAR', style_list: style});        
 });
 }
 
-exports.search_post =  [
 
+exports.search_post =  [
     
     (req, res, next) => {
-    
+   
         let errors = [
             {msg: '',
             param: 'dateFrom'},
