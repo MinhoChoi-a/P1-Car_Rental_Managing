@@ -43,9 +43,6 @@ exports.search_post =  [
             param: 'check'},
         ];
         
-
-    
-
     let reserv = new Reservation(
         {
             start_date: req.body.dateFrom,
@@ -57,8 +54,6 @@ exports.search_post =  [
     )
     
     console.log(req.body);
-
-    try {
 
     if(req.body.dateFrom > req.body.dateTo) {
         console.log("first check");
@@ -106,10 +101,6 @@ exports.search_post =  [
 
         res.render('search', {title: 'SEARCH CAR', res_info: res_info, style_list: style, errors: errors});
         return;        
-    }}
-    catch(err) {
-        console.log("error error");
-        res.send(errors + err.message);
     }     
     
     if(req.body.style == "All")
