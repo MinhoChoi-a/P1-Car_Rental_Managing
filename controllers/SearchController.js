@@ -14,24 +14,6 @@ const s3 = new AWS.S3({
     region: 'us-west-1'
 });
 
-let errors = [
-    {msg: '',
-    param: 'dateFrom'},
-    {msg: '',
-    param: 'dateTo'},
-    {msg: '',
-    param: 'location'},
-    {msg: false,
-    param: 'check'},
-];
-
-let res_info = {
-    start: '',
-    end: '',
-    location: '',
-    style: ''
-};
-
 var style = ['All', 'Small', 'SUV', 'Luxury', 'Truck'];
 
 exports.search_menu_get = function(req, res, next) {
@@ -47,8 +29,23 @@ exports.search_menu_get = function(req, res, next) {
 
 exports.search_post =  [
 
+    
     (req, res, next) => {
     
+        let errors = [
+            {msg: '',
+            param: 'dateFrom'},
+            {msg: '',
+            param: 'dateTo'},
+            {msg: '',
+            param: 'location'},
+            {msg: false,
+            param: 'check'},
+        ];
+        
+
+    
+
     let reserv = new Reservation(
         {
             start_date: req.body.dateFrom,
