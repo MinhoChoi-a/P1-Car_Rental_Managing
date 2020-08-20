@@ -14,6 +14,24 @@ const s3 = new AWS.S3({
     region: 'us-west-1'
 });
 
+let errors = [
+    {msg: '',
+    param: 'dateFrom'},
+    {msg: '',
+    param: 'dateTo'},
+    {msg: '',
+    param: 'location'},
+    {msg: false,
+    param: 'check'},
+];
+
+let res_info = {
+    start: '',
+    end: '',
+    location: '',
+    style: ''
+};
+
 var style = ['All', 'Small', 'SUV', 'Luxury', 'Truck'];
 
 exports.search_menu_get = function(req, res, next) {
@@ -22,7 +40,8 @@ exports.search_menu_get = function(req, res, next) {
     function(err) {
 
         if(!err)
-        res.render('search', {title: 'SEARCH CAR', style_list: style});
+        res.render('search', {title: 'SEARCH CAR', res_info: res_info, style_list: style, errors: errors});
+        return;
 });
 }
 
@@ -40,19 +59,11 @@ exports.search_post =  [
         }
     )
     
+    console.log(req.body);
+
     try {
-    let errors = [
-        {msg: '',
-        param: 'dateFrom'},
-        {msg: '',
-        param: 'dateTo'},
-        {msg: '',
-        param: 'location'},
-        {msg: false,
-        param: 'check'},
-    ];
-    
-    if(req.body.dateFrom > req.body.dateTo) {
+
+    if(req.body.dateF > req.body.dateTo) {
         console.log("first check");
         errors[0].msg = 'Start date should be prior to End date';
         errors[3].msg = true;
@@ -72,9 +83,6 @@ exports.search_post =  [
 
     office_info.forEach((office) => {
         
-        console.log(office.address);
-        console.log(req.body.location);
-
         if(office.address == req.body.location) {
             checkOffice = true;
         }
@@ -88,6 +96,8 @@ exports.search_post =  [
     if(errors[3].msg  == true)
     {
         console.log("final check");
+        console.log(res.body);
+
         let res_info = {
             start: req.body.dateFrom,
             end: req.body.dateTo,
@@ -95,9 +105,13 @@ exports.search_post =  [
             style: req.body.style
         };
 
-        res.render('search', {title: 'SEARCH CAR', res_info: res_info, style_list: style, errors: errors});        
+        console.log(res_info);
+
+        res.render('search', {title: 'SEARCH CAR', res_info: res_info, style_list: style, errors: errors});
+        return;        
     }}
     catch(err) {
+        console.log("error error");
         res.send(errors + err.message);
     }     
     
