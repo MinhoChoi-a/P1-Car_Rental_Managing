@@ -95,8 +95,7 @@ exports.search_post =  [
             style: req.body.style
         };
 
-        res.render('search', {title: 'SEARCH CAR', res_info: res_info, style_list: style, errors: errors});
-        return;
+        res.render('search', {title: 'SEARCH CAR', res_info: res_info, style_list: style, errors: errors});        
     }}
     catch(err) {
         res.send(errors + err.message);
