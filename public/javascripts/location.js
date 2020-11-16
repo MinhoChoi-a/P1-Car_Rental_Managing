@@ -81,7 +81,7 @@ location__button.addEventListener("click", function (e) {
         const apiKey = api[0].api;
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCq7_wnyksRIYf6kOhCQ555TDZT0TKoeQY`;
         document.head.appendChild(script);
 
         getGeocode(input__location.value, apiKey);
